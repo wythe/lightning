@@ -43,7 +43,7 @@ your system.
 This parameter is an advanced feature intended for use with cutting-edge
 cryptographic protocols and should not be used unless explicitly needed.
 
-*IMPORTANT*: if you specify the 'preimage' then it is your responsibility to:
+*IMPORTANT*: If you specify the 'preimage' then it is your responsibility to:
 
 1. Use a secure pseudorandom generator seeded with sufficient entropy
 2. Keep the preimage secret

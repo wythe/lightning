@@ -1,0 +1,31 @@
+LIGHTNING-LISTCHANNELS(7)
+=========================
+:doctype: manpage
+
+NAME
+----
+lightning-listchannels - Command for querying channel status
+
+SYNOPSIS
+--------
+*listchannels* ['short-channel-id']
+
+DESCRIPTION
+-----------
+The *listchannels* RPC command returns information about a channel specified by
+'short-channel-id'.
+If no 'short-channel-id' is specified, the status of all channels in the network
+is returned.
+Use *listpeers* to view only local channels.
+
+RETURN VALUE
+------------
+On success, an array of objects is returned.
+
+SEE ALSO
+--------
+lightning-listpeers(7)
+
+RESOURCES
+---------
+Main web site: https://github.com/ElementsProject/lightning

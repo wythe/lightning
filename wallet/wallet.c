@@ -310,11 +310,12 @@ const struct utxo **wallet_select_coins(const tal_t *ctx, struct wallet *w,
 			     &satoshi_in, fee_estimate);
 
 	/* Couldn't afford it? */
-	if (satoshi_in < *fee_estimate + value)
+	if (satoshi_in < *fee_estimate + value) {
 		return tal_free(utxo);
-
-	*changesatoshi = satoshi_in - value - *fee_estimate;
-	return utxo;
+	} else {
+		*changesatoshi = satoshi_in - value - *fee_estimate;
+		return utxo;
+	}
 }
 
 bool wallet_can_spend(struct wallet *w, const u8 *script,

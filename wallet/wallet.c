@@ -231,13 +231,13 @@ void wallet_confirm_utxos(struct wallet *w, const struct utxo **utxos)
 	}
 }
 
-static const struct utxo **wallet_select(const tal_t *ctx, struct wallet *w,
-					 const u64 value,
-					 const u32 feerate_per_kw,
-					 size_t outscriptlen,
-					 bool may_have_change,
-					 u64 *satoshi_in,
-					 u64 *fee_estimate)
+const struct utxo **wallet_select(const tal_t *ctx, struct wallet *w,
+				  const u64 value,
+				  const u32 feerate_per_kw,
+				  size_t outscriptlen,
+				  bool may_have_change,
+				  u64 *satoshi_in,
+				  u64 *fee_estimate)
 {
 	size_t i = 0;
 	struct utxo **available;
@@ -314,28 +314,6 @@ const struct utxo **wallet_select_coins(const tal_t *ctx, struct wallet *w,
 		return tal_free(utxo);
 
 	*changesatoshi = satoshi_in - value - *fee_estimate;
-	return utxo;
-}
-
-const struct utxo **wallet_select_all(const tal_t *ctx, struct wallet *w,
-				      const u32 feerate_per_kw,
-				      size_t outscriptlen,
-				      u64 *value,
-				      u64 *fee_estimate)
-{
-	u64 satoshi_in;
-	const struct utxo **utxo;
-
-	/* Huge value, but won't overflow on addition */
-	utxo = wallet_select(ctx, w, (1ULL << 56), feerate_per_kw,
-			     outscriptlen, false,
-			     &satoshi_in, fee_estimate);
-
-	/* Can't afford fees? */
-	if (*fee_estimate > satoshi_in)
-		return tal_free(utxo);
-
-	*value = satoshi_in - *fee_estimate;
 	return utxo;
 }
 

@@ -182,18 +182,20 @@ bool wallet_update_output_status(struct wallet *w,
 struct utxo **wallet_get_utxos(const tal_t *ctx, struct wallet *w,
 			      const enum output_status state);
 
+const struct utxo **wallet_select(const tal_t *ctx, struct wallet *w,
+				  const u64 value,
+				  const u32 feerate_per_kw,
+				  size_t outscriptlen,
+				  bool may_have_change,
+				  u64 *satoshi_in,
+				  u64 *fee_estimate);
+
 const struct utxo **wallet_select_coins(const tal_t *ctx, struct wallet *w,
 					const u64 value,
 					const u32 feerate_per_kw,
 					size_t outscriptlen,
 					u64 *fee_estimate,
 					u64 *change_satoshi);
-
-const struct utxo **wallet_select_all(const tal_t *ctx, struct wallet *w,
-					const u32 feerate_per_kw,
-					size_t outscriptlen,
-					u64 *value,
-					u64 *fee_estimate);
 
 /**
  * wallet_confirm_utxos - Once we've spent a set of utxos, mark them confirmed.

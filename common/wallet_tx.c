@@ -34,10 +34,31 @@ bool wtx_select_utxos(struct wallet_tx * tx, u32 fee_rate_per_kw,
 	u64 fee_estimate;
 	if (tx->all_funds) {
 		u64 amount;
+#if 1
+		{
+			u64 satoshi_in;
+			const struct utxo **utxo;
+
+			/* Huge value, but won't overflow on addition */
+			utxo = wallet_select(tx->cmd, tx->cmd->ld->wallet,
+					     (1ULL << 56), fee_rate_per_kw,
+					     out_len, false,
+					     &satoshi_in, &fee_estimate);
+
+			/* Can't afford fees? */
+			if (fee_estimate > satoshi_in)
+				return tal_free(utxo);
+
+			amount = satoshi_in - fee_estimate;
+			tx->utxos = utxo;
+		}
+
+#else
 		tx->utxos = wallet_select_all(tx->cmd, tx->cmd->ld->wallet,
 					      fee_rate_per_kw, out_len,
 					      &amount,
 					      &fee_estimate);
+#endif
 		if (!check_amount(tx, amount))
 			return false;
 

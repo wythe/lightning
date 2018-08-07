@@ -169,7 +169,7 @@ static void tok_tok(void)
 		struct json *j = json_parse(cmd, "{ 'satoshi', '546' }");
 
 		assert(param(cmd, j->buffer, j->toks,
-			     p_req("satoshi", json_tok_tok, &tok), NULL));
+			     p_req_tal("satoshi", json_tok_toq, &tok), NULL));
 		assert(tok);
 		assert(json_tok_number(j->buffer, tok, &n));
 		assert(n == 546);
@@ -181,7 +181,7 @@ static void tok_tok(void)
 
 		struct json *j = json_parse(cmd, "{}");
 		assert(param(cmd, j->buffer, j->toks,
-			     p_opt_tok("satoshi", &tok), NULL));
+			     p_opt_tal("satoshi", json_tok_toq, &tok), NULL));
 
 		/* make sure it *is* NULL */
 		assert(tok == NULL);
@@ -369,9 +369,9 @@ static void sendpay(void)
 	unsigned cltv;
 
 	if (!param(cmd, j->buffer, j->toks,
-		   p_req("route", json_tok_tok, &routetok),
+		   p_req_tal("route", json_tok_toq, &routetok),
 		   p_req("cltv", json_tok_number, &cltv),
-		   p_opt_tok("note", &note),
+		   p_opt_tal("note", json_tok_toq, &note),
 		   p_opt("msatoshi", json_tok_u64, &msatoshi),
 		   NULL))
 		assert(false);
@@ -392,9 +392,9 @@ static void sendpay_nulltok(void)
 	unsigned cltv;
 
 	if (!param(cmd, j->buffer, j->toks,
-		   p_req("route", json_tok_tok, &routetok),
+		   p_req_tal("route", json_tok_toq, &routetok),
 		   p_req("cltv", json_tok_number, &cltv),
-		   p_opt_tok("note", &note),
+		   p_opt_tal("note", json_tok_toq, &note),
 		   p_opt("msatoshi", json_tok_u64, &msatoshi),
 		   NULL))
 		assert(false);
@@ -420,17 +420,6 @@ static char *json_tok_msat(struct command *cmd,
 			       "'any', not '%.*s'",
 			       msatoshi->end - msatoshi->start,
 			       buffer + msatoshi->start);
-	return NULL;
-}
-
-/* This can eventually replace json_tok_tok and we can remove the special p_opt_tok()
- * macro. */
-static char *json_tok_tok_x(struct command *cmd,
-			    const char *buffer,
-			    const jsmntok_t *tok,
-			    const jsmntok_t **arg)
-{
-	*arg = tok;
 	return NULL;
 }
 
@@ -477,7 +466,7 @@ static void advanced(void)
 		assert(param(cmd, j->buffer, j->toks,
 			     p_req_tal("description", json_tok_label_x, &label),
 			     p_req_tal("msat", json_tok_msat, &msat),
-			     p_req_tal("tok", json_tok_tok_x, &tok),
+			     p_req_tal("tok", json_tok_toq, &tok),
 			     p_opt_tal("msat_opt1", json_tok_msat, &msat_opt1),
 			     p_opt_tal("msat_opt2", json_tok_msat, &msat_opt2),
 			     NULL));

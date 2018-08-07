@@ -14,6 +14,7 @@
 struct json_escaped;
 struct json_result;
 struct short_channel_id;
+struct command;
 
 /* Include " if it's a string. */
 const char *json_tok_contents(const char *buffer, const jsmntok_t *t);
@@ -53,8 +54,10 @@ bool json_tok_sha256(const char *buffer, const jsmntok_t * tok,
  * Set the address of @out to @tok.  Used as a param_table callback by handlers that
  * want to unmarshal @tok themselves.
  */
-bool json_tok_tok(const char *buffer, const jsmntok_t * tok,
-		  const jsmntok_t **out);
+char *json_tok_toq(struct command *cmd,
+		   const char *buffer,
+		   const jsmntok_t *tok,
+		   const jsmntok_t **out);
 
 /* Is this the null primitive? */
 bool json_tok_is_null(const char *buffer, const jsmntok_t *tok);

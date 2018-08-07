@@ -166,11 +166,13 @@ bool json_tok_sha256(const char *buffer, const jsmntok_t * tok,
 			  hash, sizeof(*hash));
 }
 
-bool json_tok_tok(const char *buffer, const jsmntok_t * tok,
-		  const jsmntok_t **out)
+char *json_tok_toq(struct command *cmd,
+		   const char *buffer,
+		   const jsmntok_t *tok,
+		   const jsmntok_t **out)
 {
 	*out = tok;
-	return true;
+	return NULL;
 }
 
 const jsmntok_t *json_next(const jsmntok_t *tok)

@@ -62,9 +62,6 @@ void command_success(struct command *cmd UNNEEDED, struct json_result *response 
 /* Generated stub for extract_channel_id */
 bool extract_channel_id(const u8 *in_pkt UNNEEDED, struct channel_id *channel_id UNNEEDED)
 { fprintf(stderr, "extract_channel_id called!\n"); abort(); }
-/* Generated stub for features_supported */
-bool features_supported(const u8 *gfeatures UNNEEDED, const u8 *lfeatures UNNEEDED)
-{ fprintf(stderr, "features_supported called!\n"); abort(); }
 /* Generated stub for fromwire_connectctl_peer_disconnect_reply */
 bool fromwire_connectctl_peer_disconnect_reply(const void *p UNNEEDED)
 { fprintf(stderr, "fromwire_connectctl_peer_disconnect_reply called!\n"); abort(); }
@@ -83,12 +80,6 @@ bool fromwire_hsm_sign_commitment_tx_reply(const void *p UNNEEDED, secp256k1_ecd
 /* Generated stub for get_feerate */
 u32 get_feerate(const struct chain_topology *topo UNNEEDED, enum feerate feerate UNNEEDED)
 { fprintf(stderr, "get_feerate called!\n"); abort(); }
-/* Generated stub for get_offered_global_features */
-u8 *get_offered_global_features(const tal_t *ctx UNNEEDED)
-{ fprintf(stderr, "get_offered_global_features called!\n"); abort(); }
-/* Generated stub for get_offered_local_features */
-u8 *get_offered_local_features(const tal_t *ctx UNNEEDED)
-{ fprintf(stderr, "get_offered_local_features called!\n"); abort(); }
 /* Generated stub for handle_opening_channel */
 bool handle_opening_channel(struct lightningd *ld UNNEEDED,
 			    const struct pubkey *id UNNEEDED,
@@ -259,10 +250,12 @@ bool json_tok_pubkey(const char *buffer UNNEEDED, const jsmntok_t *tok UNNEEDED,
 bool json_tok_short_channel_id(const char *buffer UNNEEDED, const jsmntok_t *tok UNNEEDED,
 			       struct short_channel_id *scid UNNEEDED)
 { fprintf(stderr, "json_tok_short_channel_id called!\n"); abort(); }
-/* Generated stub for json_tok_tok */
-bool json_tok_tok(const char *buffer UNNEEDED, const jsmntok_t * tok UNNEEDED,
-		  const jsmntok_t **out UNNEEDED)
-{ fprintf(stderr, "json_tok_tok called!\n"); abort(); }
+/* Generated stub for json_tok_toq */
+char *json_tok_toq(struct command *cmd UNNEEDED,
+		   const char *buffer UNNEEDED,
+		   const jsmntok_t *tok UNNEEDED,
+		   const jsmntok_t **out UNNEEDED)
+{ fprintf(stderr, "json_tok_toq called!\n"); abort(); }
 /* Generated stub for kill_uncommitted_channel */
 void kill_uncommitted_channel(struct uncommitted_channel *uc UNNEEDED,
 			      const char *why UNNEEDED)

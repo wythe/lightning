@@ -1005,7 +1005,7 @@ static void json_listconfigs(struct command *cmd,
 	bool found = false;
 
 	if (!param(cmd, buffer, params,
-		   p_opt_tok("config", &configtok),
+		   p_opt_tal("config", json_tok_toq, &configtok),
 		   NULL))
 		return;
 

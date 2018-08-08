@@ -168,12 +168,12 @@ static void json_invoice(struct command *cmd,
 	bool result;
 
 	if (!param(cmd, buffer, params,
-		   p_req_tal("msatoshi", json_tok_toq, &msatoshi),
-		   p_req_tal("label", json_tok_toq, &label),
-		   p_req_tal("description", json_tok_toq, &desctok),
+		   p_req_tal("msatoshi", json_tok_tok, &msatoshi),
+		   p_req_tal("label", json_tok_tok, &label),
+		   p_req_tal("description", json_tok_tok, &desctok),
 		   p_opt_def("expiry", json_tok_u64, &expiry, 3600),
-		   p_opt_tal("fallbacks", json_tok_toq, &fallbacks),
-		   p_opt_tal("preimage", json_tok_toq, &preimagetok),
+		   p_opt_tal("fallbacks", json_tok_tok, &fallbacks),
+		   p_opt_tal("preimage", json_tok_tok, &preimagetok),
 		   NULL))
 		return;
 
@@ -372,7 +372,7 @@ static void json_listinvoices(struct command *cmd,
 	struct wallet *wallet = cmd->ld->wallet;
 
 	if (!param(cmd, buffer, params,
-		   p_opt_tal("label", json_tok_toq, &labeltok),
+		   p_opt_tal("label", json_tok_tok, &labeltok),
 		   NULL))
 		return;
 
@@ -415,8 +415,8 @@ static void json_delinvoice(struct command *cmd,
 	struct wallet *wallet = cmd->ld->wallet;
 
 	if (!param(cmd, buffer, params,
-		   p_req_tal("label", json_tok_toq, &labeltok),
-		   p_req_tal("status", json_tok_toq, &statustok),
+		   p_req_tal("label", json_tok_tok, &labeltok),
+		   p_req_tal("status", json_tok_tok, &statustok),
 		   NULL))
 		return;
 
@@ -568,7 +568,7 @@ static void json_waitinvoice(struct command *cmd,
 	struct json_escaped *label;
 
 	if (!param(cmd, buffer, params,
-		   p_req_tal("label", json_tok_toq, &labeltok),
+		   p_req_tal("label", json_tok_tok, &labeltok),
 		   NULL))
 		return;
 
@@ -651,8 +651,8 @@ static void json_decodepay(struct command *cmd,
         char *str, *desc, *fail;
 
 	if (!param(cmd, buffer, params,
-		   p_req_tal("bolt11", json_tok_toq, &bolt11tok),
-		   p_opt_tal("description", json_tok_toq, &desctok),
+		   p_req_tal("bolt11", json_tok_tok, &bolt11tok),
+		   p_opt_tal("description", json_tok_tok, &desctok),
 		   NULL))
 		return;
 

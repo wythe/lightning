@@ -104,9 +104,9 @@ static void json_connect(struct command *cmd,
 	const char *err_msg;
 
 	if (!param(cmd, buffer, params,
-		   p_req_tal("id", json_tok_toq, (const jsmntok_t **) &idtok),
-		   p_opt_tal("host", json_tok_toq, &hosttok),
-		   p_opt_tal("port", json_tok_toq, &porttok),
+		   p_req_tal("id", json_tok_tok, (const jsmntok_t **) &idtok),
+		   p_opt_tal("host", json_tok_tok, &hosttok),
+		   p_opt_tal("port", json_tok_tok, &porttok),
 		   NULL))
 		return;
 

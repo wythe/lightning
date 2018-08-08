@@ -928,8 +928,8 @@ static void json_fund_channel(struct command *cmd,
 	fc->uc = NULL;
 	wtx_init(cmd, &fc->wtx);
 	if (!param(fc->cmd, buffer, params,
-		   p_req_tal("id", json_tok_toq, &desttok),
-		   p_req_tal("satoshi", json_tok_toq, &sattok),
+		   p_req_tal("id", json_tok_tok, &desttok),
+		   p_req_tal("satoshi", json_tok_tok, &sattok),
 		   NULL))
 		return;
 

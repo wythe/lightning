@@ -54,7 +54,7 @@ bool json_tok_sha256(const char *buffer, const jsmntok_t * tok,
  * Set the address of @out to @tok.  Used as a param_table callback by handlers that
  * want to unmarshal @tok themselves.
  */
-char *json_tok_toq(struct command *cmd,
+char *json_tok_tok(struct command *cmd,
 		   const char *buffer,
 		   const jsmntok_t *tok,
 		   const jsmntok_t **out);

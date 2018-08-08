@@ -169,7 +169,7 @@ static void tok_tok(void)
 		struct json *j = json_parse(cmd, "{ 'satoshi', '546' }");
 
 		assert(param(cmd, j->buffer, j->toks,
-			     p_req_tal("satoshi", json_tok_toq, &tok), NULL));
+			     p_req_tal("satoshi", json_tok_tok, &tok), NULL));
 		assert(tok);
 		assert(json_tok_number(j->buffer, tok, &n));
 		assert(n == 546);
@@ -181,7 +181,7 @@ static void tok_tok(void)
 
 		struct json *j = json_parse(cmd, "{}");
 		assert(param(cmd, j->buffer, j->toks,
-			     p_opt_tal("satoshi", json_tok_toq, &tok), NULL));
+			     p_opt_tal("satoshi", json_tok_tok, &tok), NULL));
 
 		/* make sure it *is* NULL */
 		assert(tok == NULL);
@@ -369,9 +369,9 @@ static void sendpay(void)
 	unsigned cltv;
 
 	if (!param(cmd, j->buffer, j->toks,
-		   p_req_tal("route", json_tok_toq, &routetok),
+		   p_req_tal("route", json_tok_tok, &routetok),
 		   p_req("cltv", json_tok_number, &cltv),
-		   p_opt_tal("note", json_tok_toq, &note),
+		   p_opt_tal("note", json_tok_tok, &note),
 		   p_opt("msatoshi", json_tok_u64, &msatoshi),
 		   NULL))
 		assert(false);
@@ -392,9 +392,9 @@ static void sendpay_nulltok(void)
 	unsigned cltv;
 
 	if (!param(cmd, j->buffer, j->toks,
-		   p_req_tal("route", json_tok_toq, &routetok),
+		   p_req_tal("route", json_tok_tok, &routetok),
 		   p_req("cltv", json_tok_number, &cltv),
-		   p_opt_tal("note", json_tok_toq, &note),
+		   p_opt_tal("note", json_tok_tok, &note),
 		   p_opt("msatoshi", json_tok_u64, &msatoshi),
 		   NULL))
 		assert(false);
@@ -466,7 +466,7 @@ static void advanced(void)
 		assert(param(cmd, j->buffer, j->toks,
 			     p_req_tal("description", json_tok_label_x, &label),
 			     p_req_tal("msat", json_tok_msat, &msat),
-			     p_req_tal("tok", json_tok_toq, &tok),
+			     p_req_tal("tok", json_tok_tok, &tok),
 			     p_opt_tal("msat_opt1", json_tok_msat, &msat_opt1),
 			     p_opt_tal("msat_opt2", json_tok_msat, &msat_opt2),
 			     NULL));

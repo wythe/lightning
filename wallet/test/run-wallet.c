@@ -250,12 +250,12 @@ bool json_tok_pubkey(const char *buffer UNNEEDED, const jsmntok_t *tok UNNEEDED,
 bool json_tok_short_channel_id(const char *buffer UNNEEDED, const jsmntok_t *tok UNNEEDED,
 			       struct short_channel_id *scid UNNEEDED)
 { fprintf(stderr, "json_tok_short_channel_id called!\n"); abort(); }
-/* Generated stub for json_tok_toq */
-char *json_tok_toq(struct command *cmd UNNEEDED,
+/* Generated stub for json_tok_tok */
+char *json_tok_tok(struct command *cmd UNNEEDED,
 		   const char *buffer UNNEEDED,
 		   const jsmntok_t *tok UNNEEDED,
 		   const jsmntok_t **out UNNEEDED)
-{ fprintf(stderr, "json_tok_toq called!\n"); abort(); }
+{ fprintf(stderr, "json_tok_tok called!\n"); abort(); }
 /* Generated stub for kill_uncommitted_channel */
 void kill_uncommitted_channel(struct uncommitted_channel *uc UNNEEDED,
 			      const char *why UNNEEDED)

@@ -955,10 +955,10 @@ static void json_sendpay(struct command *cmd,
 	const char *description;
 
 	if (!param(cmd, buffer, params,
-		   p_req_tal("route", json_tok_toq, &routetok),
+		   p_req_tal("route", json_tok_tok, &routetok),
 		   p_req("payment_hash", json_tok_sha256, &rhash),
 		   p_opt("msatoshi", json_tok_u64, &msatoshi),
-		   p_opt_tal("description", json_tok_toq, &desctok),
+		   p_opt_tal("description", json_tok_tok, &desctok),
 		   NULL))
 		return;
 
@@ -1124,8 +1124,8 @@ static void json_listpayments(struct command *cmd, const char *buffer,
 	struct sha256 *rhash = NULL;
 
 	if (!param(cmd, buffer, params,
-		   p_opt_tal("bolt11", json_tok_toq, &bolt11tok),
-		   p_opt_tal("payment_hash", json_tok_toq, &rhashtok),
+		   p_opt_tal("bolt11", json_tok_tok, &bolt11tok),
+		   p_opt_tal("payment_hash", json_tok_tok, &rhashtok),
 		   NULL))
 		return;
 

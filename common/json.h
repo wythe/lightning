@@ -107,4 +107,17 @@ void json_add_hex_talarr(struct json_result *result,
 void json_add_object(struct json_result *result, ...);
 
 const char *json_result_string(const struct json_result *result);
+
+/* Print a json value for debugging purposes.  */
+void json_tok_print(const char *buffer, const jsmntok_t *params);
+
+/* Return a copy of a json value as an array.  */
+jsmntok_t *json_tok_copy(const tal_t *ctx, const jsmntok_t *tok);
+
+/*
+ * Remove @num json values from a json array or object. @tok points
+ * to the first value to remove.  The array will be resized.
+ */
+void json_tok_remove(jsmntok_t **tokens, jsmntok_t *tok, size_t num);
+
 #endif /* LIGHTNING_COMMON_JSON_H */

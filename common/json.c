@@ -453,3 +453,51 @@ const char *json_result_string(const struct json_result *result)
 	assert(tal_count(result->s) == strlen(result->s) + 1);
 	return result->s;
 }
+
+void json_tok_print(const char *buffer, const jsmntok_t *params)
+{
+	const jsmntok_t *a = params;
+	const jsmntok_t *b = json_next(params);
+	printf("size: %d, count: %ld\n", params->size, b - a);
+	while (a != b) {
+		printf("%ld. %.*s, %d\n", a - params,
+		        a->end - a->start, buffer + a->start,
+			a->type);
+		a++;
+	}
+	printf("\n");
+}
+
+jsmntok_t *json_tok_copy(const tal_t *ctx, const jsmntok_t *tok)
+{
+	const jsmntok_t *first = tok;
+	const jsmntok_t *last = json_next(tok);
+	jsmntok_t *arr = tal_arr(ctx, jsmntok_t, last - first);
+	jsmntok_t *dest = arr;
+	while (first != last)
+		*dest++ = *first++;
+
+	return arr;
+}
+
+void json_tok_remove(jsmntok_t **tokens, jsmntok_t *tok, size_t num)
+{
+#if DEVELOPER
+	assert(*tokens);
+	assert((*tokens)->type == JSMN_ARRAY || (*tokens)->type == JSMN_OBJECT);
+#endif
+	const jsmntok_t *src = tok;
+	const jsmntok_t *end = json_next(*tokens);
+	jsmntok_t *dest = tok;
+	int remove_count;
+
+	for (int i = 0; i < num; i++)
+		src = json_next(src);
+
+	remove_count = src - tok;
+
+	memmove(dest, src, sizeof(jsmntok_t) * (end - src));
+
+	tal_resize(tokens, tal_count(*tokens) - remove_count);
+	(*tokens)->size -= num;
+}

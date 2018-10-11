@@ -806,3 +806,69 @@ bool json_tok_wtx(struct wallet_tx * tx, const char * buffer,
 	}
         return true;
 }
+
+static bool json_tok_command(struct command *cmd, const char *name,
+			     const char *buffer, const jsmntok_t *tok,
+			     const jsmntok_t **out)
+{
+	cmd->json_cmd = find_cmd(buffer, tok);
+	if (cmd->json_cmd)
+		return (*out = tok);
+
+	command_fail(cmd, JSONRPC2_INVALID_PARAMS,
+		     "'%s' of '%.*s' is invalid",
+		     name, tok->end - tok->start, buffer + tok->start);
+	return false;
+}
+
+static void json_check(struct command *cmd,
+		       const char *buffer, const jsmntok_t *params)
+{
+	jsmntok_t *mod_params;
+	const jsmntok_t *name_tok;
+	struct json_result *response = new_json_result(cmd);
+	bool ok = true;
+
+	if (cmd->mode == CMD_USAGE) {
+		mod_params = NULL;
+	} else {
+		mod_params = json_tok_copy(cmd, params);
+	}
+
+	if (cmd->mode == CMD_NORMAL)
+		cmd->allow_unused = true;
+
+	if (!param(cmd, buffer, mod_params,
+		   p_req("command", json_tok_command, &name_tok),
+		   NULL))
+		return;
+
+	cmd->allow_unused = false;
+
+	if (params->type == JSMN_OBJECT)
+		name_tok--;
+
+	json_tok_remove(&mod_params, (jsmntok_t *)name_tok, 1);
+
+	cmd->mode = CMD_CHECK;
+	cmd->ok = &ok;
+	cmd->json_cmd->dispatch(cmd, buffer, mod_params);
+
+	if (!ok)
+		return;
+
+	json_object_start(response, NULL);
+	json_add_string(response, "command", cmd->json_cmd->name);
+	json_add_string(response, "parameters", "ok");
+	json_object_end(response);
+	command_success(cmd, response);
+}
+
+static const struct json_command check_command = {
+	"check",
+	json_check,
+	"Don't run {command}, just verify parameters.",
+	.verbose = "check command [parameters...]\n"
+};
+
+AUTODATA(json_command, &check_command);

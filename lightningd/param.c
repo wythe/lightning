@@ -281,5 +281,5 @@ bool param(struct command *cmd, const char *buffer,
 		return false;
 	}
 
-	return param_arr(cmd, buffer, tokens, params);
+	return param_arr(cmd, buffer, tokens, params) && cmd->mode == CMD_NORMAL;
 }

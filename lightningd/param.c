@@ -79,7 +79,7 @@ static bool parse_by_position(struct command *cmd,
 	}
 
 	/* check for unexpected trailing params */
-	if (tok != end) {
+	if (!cmd->allow_unused && tok != end) {
 		command_fail(cmd, JSONRPC2_INVALID_PARAMS,
 			     "too many parameters:"
 			     " got %u, expected %zu",

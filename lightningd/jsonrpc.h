@@ -39,6 +39,8 @@ struct command {
 	/* This is created if mode is CMD_USAGE */
 	const char *usage;
 	bool *ok;
+	/* Is it ok if param() detects extra params?  Default is false. */
+	bool allow_unused;
 };
 
 struct json_connection {
